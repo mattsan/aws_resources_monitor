@@ -5,6 +5,7 @@ ruby '2.6.2'
 
 gem 'rails', '~> 5.2.3'
 
+gem 'aws-sdk-ec2'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'jbuilder', '~> 2.5'
 gem 'milligram'
