@@ -1,2 +1,22 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<table>
+  <thead>
+    <tr>
+      <th>launch time</th>
+      <th>name</th>
+      <th>state</th>
+      <th>image-id</th>
+      <th>instance-id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @instances.each do |instance| %>
+      <tr>
+        <td><%= instance.launch_time.strftime('%Y/%m/%d %H:%M:%S') %></td>
+        <td><%= instance.name %></td>
+        <td><%= instance.state %></td>
+        <td></td>
+        <td><%= instance.id %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
