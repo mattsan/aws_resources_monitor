@@ -1,8 +1,13 @@
 class Ec2
-  Instance = Struct.new('Instance', :id, :name, :state, :launch_time)
-  def describe_instances
-    client = Aws::EC2::Client.new(region: 'ap-northeast-1')
+  Instance = Struct.new('Instance', :id, :image_id, :name, :state, :launch_time)
 
+  attr_reader :profile
+
+  def initialize(profile)
+    @profile = profile
+  end
+
+  def describe_instances
     filters = [
       {
         name: 'instance-state-name',
@@ -10,7 +15,7 @@ class Ec2
       },
       {
         name: 'tag:stage',
-        values: ['staging']
+        values: [profile]
       },
       {
         name: 'tag:component',
@@ -24,10 +29,17 @@ class Ec2
       .map {|i|
         Instance.new(
           i.instance_id,
+          i.image_id,
           i.tags.select {|tag| tag.key == 'Name' }.map(&:value).join,
           i.state.name,
           i.launch_time.localtime
         )
       }
+  end
+
+  def client
+    @client ||= Aws::EC2::Client.new(
+      profile: @profile
+    )
   end
 end

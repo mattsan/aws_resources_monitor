@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   def index
-    @instances = Ec2.new.describe_instances.sort_by {|i| i.launch_time }
+    ec2 = Ec2.new('default')
+    @instances = ec2.describe_instances.sort_by {|i| i.launch_time }
   end
 end
